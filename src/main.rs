@@ -9,9 +9,9 @@ use tiny_keccak::{Hasher, Keccak};
 
 fn main() {
     let mnemonic = "";
-    let mnemonic2 = use_oxr_mnemonic_to_generate_new_mnemonic(mnemonic, "");
+    let mnemonic2 = use_xor_mnemonic_to_generate_new_mnemonic(mnemonic, "");
     println!("Titan-> {}", mnemonic2);
-    let mnemonic3 = use_oxr_mnemonic_to_generate_new_mnemonic(&mnemonic2, "");
+    let mnemonic3 = use_xor_mnemonic_to_generate_new_mnemonic(&mnemonic2, "");
     println!("第二次异或助记词：{}", mnemonic3);
 
 }
