@@ -1,0 +1,13 @@
+[package]
+name = "untitled1"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tiny-bip39 = "1.0" # 请检查最新版本
+bip32 = "0.5.1" # 请检查最新版本
+secp256k1 = "0.29.0"
+tiny-keccak = { version = "2.0.0", features = ["sha3", "keccak"] }
+hex = "0.4.3"
