@@ -17,7 +17,7 @@ fn main() {
 }
 
 //up
-fn use_oxr_mnemonic_to_recover_private_key_orin(mnemonic : &str, xor: &str ) -> String {
+fn use_xor_mnemonic_to_recover_private_key_orin(mnemonic : &str, xor: &str ) -> String {
 
     let entropy = mnemonic_phrase_to_entropy(mnemonic);
     let xor = xor_entropy_to_private_key(&entropy, xor);
@@ -28,7 +28,7 @@ fn use_oxr_mnemonic_to_recover_private_key_orin(mnemonic : &str, xor: &str ) -> 
 }
 
 //down
-fn use_oxr_mnemonic_to_generate_new_mnemonic(mnemonic : &str, xor: &str ) -> String {
+fn use_xor_mnemonic_to_generate_new_mnemonic(mnemonic : &str, xor: &str ) -> String {
     // 从助记词生成私钥
     let private_key = mnemonic_phrase_to_private_key(mnemonic);
 
@@ -197,22 +197,22 @@ mod tests {
     #[test]
     fn test_use_oxr_mnemonic_to_generate_new_mnemonic() {
         let mnemonic = "poet govern brand hockey family must mutual talent distance possible beauty cube";
-        let mnemonic2 = use_oxr_mnemonic_to_generate_new_mnemonic(mnemonic, "xxx");
+        let mnemonic2 = use_xor_mnemonic_to_generate_new_mnemonic(mnemonic, "xxx");
         println!("第一次异或助记词：{}", mnemonic2);
-        let mnemonic3 = use_oxr_mnemonic_to_generate_new_mnemonic(&mnemonic2, "xxxx");
+        let mnemonic3 = use_xor_mnemonic_to_generate_new_mnemonic(&mnemonic2, "xxxx");
         println!("第二次异或助记词：{}", mnemonic3);
         println!("_______________________________test end__________________________________\n");
 
     }
 
     #[test]
-    fn test_use_oxr_mnemonic_to_recover_private_key_orin() {
+    fn test_use_xor_mnemonic_to_recover_private_key_orin() {
         let mnemonic3 = "army supply earn mango ball amateur spin display they erosion cable draft shrug gospel swing chief color wing lend end subject gossip bid chest";
-        let private_key_orin2 = use_oxr_mnemonic_to_recover_private_key_orin(mnemonic3, "xxxx");
+        let private_key_orin2 = use_xor_mnemonic_to_recover_private_key_orin(mnemonic3, "xxxx");
         println!("第一次异或后私钥 {}", private_key_orin2);
 
         let mnemonice2 = "enlist direct unaware maximum dragon mesh retire confirm ladder egg wine border plastic slow antenna final battle dune oven moon trap fatigue rigid faint";
-        let private_key_orin=  use_oxr_mnemonic_to_recover_private_key_orin(mnemonice2, "xxx");
+        let private_key_orin=  use_xor_mnemonic_to_recover_private_key_orin(mnemonice2, "xxx");
         println!("钱包私钥 {}", private_key_orin);
     }
 }
