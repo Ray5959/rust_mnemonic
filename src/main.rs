@@ -28,6 +28,8 @@ fn use_xor_mnemonic_to_recover_private_key_orin(mnemonic : &str, xor: &str ) -> 
 }
 
 //down
+/// 将原有私钥异或后 当做下一个助记词的熵
+/// 以便产生新的助记词
 fn use_xor_mnemonic_to_generate_new_mnemonic(mnemonic : &str, xor: &str ) -> String {
     // 从助记词生成私钥
     let private_key = mnemonic_phrase_to_private_key(mnemonic);
@@ -42,6 +44,7 @@ fn use_xor_mnemonic_to_generate_new_mnemonic(mnemonic : &str, xor: &str ) -> Str
     mnemonic2
 }
 
+/// 助记词推导私钥
 fn mnemonic_phrase_to_private_key(mnemonic_phrase: &str) -> SigningKey {
     // 从助记词创建助记词实例
     let mnemonic = Mnemonic::from_phrase(mnemonic_phrase, Language::English).expect("创建助记词失败");
@@ -52,7 +55,7 @@ fn mnemonic_phrase_to_private_key(mnemonic_phrase: &str) -> SigningKey {
     // 从种子生成扩展私钥
     let xprv = XPrv::new(seed.as_bytes()).expect("创建扩展私钥失败");
 
-    // 定义派生路径
+    // 定义派生路径 bip44 以太坊派生空间 "m/44'/60'/0'/0/0"
     let derivation_path = DerivationPath::from_str("m/44'/60'/0'/0/0").expect("非法派生路径");
 
     // 逐个处理派生路径中的每个 ChildNumber
@@ -90,6 +93,7 @@ fn mnemonic_phrase_to_private_key(mnemonic_phrase: &str) -> SigningKey {
     private_key.clone()
 }
 
+/// 异或私钥到助记词熵
 fn xor_private_key_to_entropy(private_key_bytes: &SigningKey, str: &str) -> Vec<u8> {
     // XOR 私钥 异或
     let bytes = str.as_bytes();
@@ -110,6 +114,7 @@ fn xor_private_key_to_entropy(private_key_bytes: &SigningKey, str: &str) -> Vec<
     xor_bytes
 }
 
+/// 异或熵到私钥
 fn xor_entropy_to_private_key(entropy_bytes: &Vec<u8>, str: &str) -> SigningKey {
 
     let bytes = str.as_bytes();
@@ -131,7 +136,7 @@ fn xor_entropy_to_private_key(entropy_bytes: &Vec<u8>, str: &str) -> SigningKey 
 
 }
 
-
+/// 使用新的熵创建助记词
 fn entropy_to_mnemonic_phrase(entropy_bytes: &Vec<u8>) -> String {
     // 从助记词创建助记词实例
     let mnemonic = Mnemonic::from_entropy(entropy_bytes, Language::English).expect("创建助记词失败");
@@ -139,7 +144,7 @@ fn entropy_to_mnemonic_phrase(entropy_bytes: &Vec<u8>) -> String {
     mnemonic.phrase().to_string()
 }
 
-
+/// 助记词转换到熵
 fn mnemonic_phrase_to_entropy(mnemonic_phrase: &str) -> Vec<u8> {
     let mnemonic = Mnemonic::from_phrase(mnemonic_phrase, Language::English).expect("创建助记词失败");
     let entropy = mnemonic.entropy();
@@ -214,5 +219,6 @@ mod tests {
         let mnemonice2 = "enlist direct unaware maximum dragon mesh retire confirm ladder egg wine border plastic slow antenna final battle dune oven moon trap fatigue rigid faint";
         let private_key_orin=  use_xor_mnemonic_to_recover_private_key_orin(mnemonice2, "xxx");
         println!("钱包私钥 {}", private_key_orin);
+        println!("______________________________test end___________________________________\n");
     }
 }
