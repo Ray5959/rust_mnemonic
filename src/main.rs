@@ -16,7 +16,8 @@ fn main() {
 
 }
 
-//up
+// up
+// 使用当前助记词恢复上一个私钥
 fn use_xor_mnemonic_to_recover_private_key_orin(mnemonic : &str, xor: &str ) -> String {
 
     let entropy = mnemonic_phrase_to_entropy(mnemonic);
